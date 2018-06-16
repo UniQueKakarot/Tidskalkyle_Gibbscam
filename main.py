@@ -39,16 +39,17 @@ while time_in_sec != 0.0:
         seconds = time_in_sec
         time_in_sec -= time_in_sec
 
-print('Hours: ', hours)
-print('Minutes: ', minutes)
-print('Seconds: ', seconds)
-print(time_in_sec)
+#print('Hours: ', hours)
+#print('Minutes: ', minutes)
+#print('Seconds: ', seconds)
+#print(time_in_sec)
 
 total_time = str(hours) + ':' + str(minutes) + ':' + str(seconds)
 
-print(total_time)
+#print(total_time)
 
 if os.path.isfile('Tidskalkyle.xlsx') == False:
+    print('Hello')
     wb = op.Workbook()
 
     wb.create_sheet('Raw Data')
@@ -67,11 +68,34 @@ if os.path.isfile('Tidskalkyle.xlsx') == False:
     ws.cell(row=1, column=1, value='Productcode:')
     ws.cell(row=1, column=2, value='Total Machining time:')
 
-    raw_productcode = productcode[0:6]
-    ws.cell(row=2, column=1, value=raw_productcode)
-    ws.cell(row=2, column=2, value=total_time)
+    #raw_productcode = productcode[0:6]
+    #ws.cell(row=2, column=1, value=raw_productcode)
+    #ws.cell(row=2, column=2, value=total_time)
 
     wb.save('Tidskalkyle.xlsx')
 
 else:
+    print('Hello 1')
     wb = op.load_workbook('Tidskalkyle.xlsx')
+    ws = wb['Raw Data']
+
+    row = 2
+    count = 0
+    while ws.cell(row=row, column=1).value != None:
+        #print(ws.cell(row=3, column=1).value)
+
+        if ws.cell(row=row, column=1).value == productcode:
+            print('Hello 2')
+
+            ws.cell(row=row, column=1, value=productcode)
+            ws.cell(row=row, column=2, value=total_time)
+            count = 1
+        
+        row += 1
+        
+    if count == 0:
+        print('Hello 3')
+        ws.cell(row=row, column=1, value=productcode)
+        ws.cell(row=row, column=2, value=total_time)
+
+    wb.save('Tidskalkyle.xlsx')
