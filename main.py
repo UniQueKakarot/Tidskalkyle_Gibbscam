@@ -1,6 +1,9 @@
 """ This script is going to be timecalculating my machiningtime,
     and outputting the results in a excelfile """
 
+#TODO 
+# Save the time in seconds instead in the raw data sheet to simplify the results sheet writing
+
 import os.path
 
 import openpyxl as op
@@ -39,14 +42,7 @@ while time_in_sec != 0.0:
         seconds = time_in_sec
         time_in_sec -= time_in_sec
 
-#print('Hours: ', hours)
-#print('Minutes: ', minutes)
-#print('Seconds: ', seconds)
-#print(time_in_sec)
-
 total_time = str(hours) + ':' + str(minutes) + ':' + str(seconds)
-
-#print(total_time)
 
 if os.path.isfile('Tidskalkyle.xlsx') == False:
     print('Hello')
@@ -82,7 +78,6 @@ else:
     row = 2
     count = 0
     while ws.cell(row=row, column=1).value != None:
-        #print(ws.cell(row=3, column=1).value)
 
         if ws.cell(row=row, column=1).value == productcode:
             print('Hello 2')
@@ -99,3 +94,26 @@ else:
         ws.cell(row=row, column=2, value=total_time)
 
     wb.save('Tidskalkyle.xlsx')
+
+row = 2
+order_time = 0
+while ws.cell(row=row, column=1).value != None:
+    # find every entry with the same production number and add togheter the times
+    productcode = ws.cell(row=row, column=1).value
+    raw_productcode = productcode[0:6]
+
+    row2 = 2
+    while ws.cell(row=row2, column=1).value != None:
+        inner_productcode = ws.cell(row=row, column=1).value
+        raw_inner = inner_productcode[0:6]
+        if raw_inner == raw_productcode:
+            time = ws.cell(row=row2, column=2).value
+
+
+    order_time
+
+ws = wb['Results']
+
+row = 2
+while ws.cell(row=row, column=1).value != None:
+    pass
