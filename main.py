@@ -20,14 +20,14 @@ time_in_sec = 0.0
 for time in filebody_clean:
     time_in_sec += time
 
-time_in_sec = round(time_in_sec, 0)
+time_in_sec = int(round(time_in_sec, 0))
 
 print(time_in_sec)
 
 seconds = 0
 minutes = 0
 hours = 0
-
+"""
 while time_in_sec != 0.0:
 
     if time_in_sec > 3600.0:
@@ -43,7 +43,7 @@ while time_in_sec != 0.0:
         time_in_sec -= time_in_sec
 
 total_time = str(hours) + ':' + str(minutes) + ':' + str(seconds)
-
+"""
 if os.path.isfile('Tidskalkyle.xlsx') == False:
     print('Hello')
     wb = op.Workbook()
@@ -58,20 +58,15 @@ if os.path.isfile('Tidskalkyle.xlsx') == False:
     ws.cell(row=1, column=2, value='Time:')
 
     ws.cell(row=2, column=1, value=productcode)
-    ws.cell(row=2, column=2, value=total_time)
+    ws.cell(row=2, column=2, value=time_in_sec)
 
     ws = wb['Results']
     ws.cell(row=1, column=1, value='Productcode:')
     ws.cell(row=1, column=2, value='Total Machining time:')
 
-    #raw_productcode = productcode[0:6]
-    #ws.cell(row=2, column=1, value=raw_productcode)
-    #ws.cell(row=2, column=2, value=total_time)
-
     wb.save('Tidskalkyle.xlsx')
 
 else:
-    print('Hello 1')
     wb = op.load_workbook('Tidskalkyle.xlsx')
     ws = wb['Raw Data']
 
@@ -80,40 +75,106 @@ else:
     while ws.cell(row=row, column=1).value != None:
 
         if ws.cell(row=row, column=1).value == productcode:
-            print('Hello 2')
 
             ws.cell(row=row, column=1, value=productcode)
-            ws.cell(row=row, column=2, value=total_time)
+            ws.cell(row=row, column=2, value=time_in_sec)
             count = 1
         
         row += 1
         
     if count == 0:
-        print('Hello 3')
+
         ws.cell(row=row, column=1, value=productcode)
-        ws.cell(row=row, column=2, value=total_time)
+        ws.cell(row=row, column=2, value=time_in_sec)
 
     wb.save('Tidskalkyle.xlsx')
 
+#############################################
+# Dealing with the results sheet under      #
+#############################################
+
+order_time = 0
+for cell in ws['A']:
+    print('Hello')
+    try:
+        raw1 = cell.value
+        raw1 = raw1[0:6]
+    except TypeError:
+        pass
+
+    row = 1
+    for value in ws['A']:
+        print('Hello1')
+        try:
+            raw2 = value.value
+            raw2 = raw2[0:6]
+        except TypeError:
+            pass
+
+        if raw1 == 'Produc':
+            print(raw1)
+            pass
+
+        elif raw1 == None:
+            print(raw1)
+            pass
+
+        elif raw1 == raw2:
+            time = int(ws.cell(row=row, column=2).value)
+            order_time += time
+            print('added up some time?')
+
+            ws = wb['Results']
+            print('Hello???')
+            row1 = 2
+            while ws.cell(row=row1, column=1).value != None:
+                print('While...')
+                if raw1 == 'Produc':
+                    pass
+                elif raw1 == None:
+                    pass
+                else:
+                    ws.cell(row=row1, column=1, value=raw1)
+                    ws.cell(row=row1, column=2, value=order_time)
+                row1 += 1
+
+            ws = wb['Raw Data']
+
+        row += 1
+
+wb.save('Tidskalkyle.xlsx')
+
+            
+    #print(cell.value)
+
+
+"""
 row = 2
 order_time = 0
 while ws.cell(row=row, column=1).value != None:
-    # find every entry with the same production number and add togheter the times
     productcode = ws.cell(row=row, column=1).value
     raw_productcode = productcode[0:6]
+    print('Raw_product', raw_productcode)
 
-    row2 = 2
+    row2 = row + 1
     while ws.cell(row=row2, column=1).value != None:
-        inner_productcode = ws.cell(row=row, column=1).value
+        inner_productcode = ws.cell(row=row2, column=1).value
         raw_inner = inner_productcode[0:6]
+        print('raw_inner', raw_inner)
+
         if raw_inner == raw_productcode:
+            print('Hello')
             time = ws.cell(row=row2, column=2).value
 
+        row2 += 1
+        #print('Row2', row2)
 
+    row += 1
     order_time
+"""
 
 ws = wb['Results']
 
 row = 2
-while ws.cell(row=row, column=1).value != None:
-    pass
+#while ws.cell(row=row, column=1).value != None:
+    #pass
