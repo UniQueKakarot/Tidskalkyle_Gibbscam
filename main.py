@@ -93,6 +93,52 @@ else:
 # Dealing with the results sheet under      #
 #############################################
 
+row = 2
+while ws.cell(row=row, column=1).value != None:
+    checkvalue = ws.cell(row=row, column=1).value
+    checkvalue = checkvalue[:6]
+    print('Hello')
+
+    for cell in ws['A']:
+        if cell.value == None:
+            pass
+        else:
+            cellvalue = cell.value
+            cellvalue = cellvalue[:6]
+
+        if checkvalue == cellvalue:
+
+            print('Checkvalue:', checkvalue, 'cellvalue:', cellvalue)
+        # do something
+    
+    row += 2
+
+"""
+row = 2
+test_list = []
+while ws.cell(row=row, column=1).value != None:
+    test1 = ws.cell(row=row, column=1).value
+    test1 = test1[:6]
+
+    row1 = 2
+    while ws.cell(row=row1, column=1).value != None:
+        test2 = ws.cell(row=row, column=1).value
+        test2 = test2[:6]
+        #print('Yolo')
+
+        if test1 == test2:
+            test_list.append((test2, row))
+
+        row1 += 1
+
+
+    row += 1
+
+print(test_list)
+
+"""
+
+"""
 order_time = 0
 for cell in ws['A']:
     print('Hello')
@@ -112,40 +158,47 @@ for cell in ws['A']:
             pass
 
         if raw1 == 'Produc':
-            print(raw1)
+            #print(raw1)
             pass
 
         elif raw1 == None:
-            print(raw1)
+            #print(raw1)
             pass
 
         elif raw1 == raw2:
             time = int(ws.cell(row=row, column=2).value)
             order_time += time
-            print('added up some time?')
+            #print('added up some time?')
 
             ws = wb['Results']
-            print('Hello???')
+            #print('Hello???')
+
+            # fix me
             row1 = 2
             while ws.cell(row=row1, column=1).value != None:
                 print('While...')
-                if raw1 == 'Produc':
-                    pass
-                elif raw1 == None:
-                    pass
-                else:
-                    ws.cell(row=row1, column=1, value=raw1)
-                    ws.cell(row=row1, column=2, value=order_time)
                 row1 += 1
+
+            if raw1 == 'Produc':
+                print('Yolo')
+                pass
+            elif raw1 == None:
+                print('Yolo2')
+                pass
+            else:
+                ws.cell(row=row1, column=1, value=raw1)
+                ws.cell(row=row1, column=2, value=order_time)
+
+            row1 += 1
 
             ws = wb['Raw Data']
 
         row += 1
 
+"""
+
 wb.save('Tidskalkyle.xlsx')
 
-            
-    #print(cell.value)
 
 
 """
