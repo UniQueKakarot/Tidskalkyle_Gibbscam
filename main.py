@@ -22,7 +22,7 @@ for time in filebody_clean:
 
 time_in_sec = int(round(time_in_sec, 0))
 
-print(time_in_sec)
+#print(time_in_sec)
 
 seconds = 0
 minutes = 0
@@ -103,6 +103,8 @@ while ws.cell(row=row, column=1).value != None:
 test = list(set(test))
 print(test)
 
+ordernumber = ""
+time = 0
 row = 2
 while ws.cell(row=row, column=1).value != None:
     cellvalue = ws.cell(row=row, column=1).value
@@ -111,6 +113,26 @@ while ws.cell(row=row, column=1).value != None:
     for item in test:
         if item == cellvalue:
             print('Item:', item, 'Cellvalue:', cellvalue)
+            time += ws.cell(row=row, column=2).value
+            ordernumber = item
+            print('Time', time)
 
+    ws = wb['Results']
+    check = 0
+    row_results = 2
+    while ws.cell(row=row_results, column=1).value != None:
+        if ordernumber == ws.cell(row=row_results, column=1).value:
+            ws.cell(row=row_results, column=2, value=time)
+            check = 1
+        row_results += 1
+    
+    if check == 0:
+        ws.cell(row=row_results, column=1, value=ordernumber)
+        ws.cell(row=row_results, column=2, value=time)
+
+    ws = wb['Raw Data']
+    #time = 0
     row += 1
+
+wb.save('Tidskalkyle.xlsx')
 
