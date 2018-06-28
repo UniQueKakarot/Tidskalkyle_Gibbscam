@@ -103,36 +103,66 @@ while ws.cell(row=row, column=1).value != None:
 test = list(set(test))
 print(test)
 
-ordernumber = ""
 time = 0
 row = 2
-while ws.cell(row=row, column=1).value != None:
-    cellvalue = ws.cell(row=row, column=1).value
-    cellvalue = cellvalue[:6]
+for item in test:
 
-    for item in test:
-        if item == cellvalue:
-            print('Item:', item, 'Cellvalue:', cellvalue)
+    time = 0
+    row = 2
+    while ws.cell(row=row, column=1).value != None:
+        ordernumber = ws.cell(row=row, column=1).value
+        ordernumber = ordernumber[:6]
+
+        if ordernumber == item:
             time += ws.cell(row=row, column=2).value
-            ordernumber = item
-            print('Time', time)
+            print(ordernumber)
+
+        row += 1
+
+    #print('Time:', time)
+    # it works until here atleast
 
     ws = wb['Results']
+
+    seconds = 0
+    minutes = 0
+    hours = 0
+
+    while time != 0:
+
+        if time > 3600:
+            hours += 1
+            time -= 3600
+
+        elif time > 60:
+            minutes += 1
+            time -= 60
+
+        else:
+            seconds = time
+            time -= time
+
+    total_time = str(hours) + ':' + str(minutes) + ':' + str(seconds)
+    #print('Total time:', total_time)
+
     check = 0
     row_results = 2
     while ws.cell(row=row_results, column=1).value != None:
-        if ordernumber == ws.cell(row=row_results, column=1).value:
-            ws.cell(row=row_results, column=2, value=time)
+
+        if item == ws.cell(row=row_results, column=1).value:
+            ws.cell(row=row_results, column=2, value=total_time)
             check = 1
         row_results += 1
     
     if check == 0:
-        ws.cell(row=row_results, column=1, value=ordernumber)
-        ws.cell(row=row_results, column=2, value=time)
+
+        ws.cell(row=row_results, column=1, value=item)
+        ws.cell(row=row_results, column=2, value=total_time)
+
+    row += 1
 
     ws = wb['Raw Data']
-    #time = 0
-    row += 1
+
 
 wb.save('Tidskalkyle.xlsx')
 
