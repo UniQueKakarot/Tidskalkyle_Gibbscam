@@ -23,7 +23,6 @@ time_in_sec = int(round(time_in_sec, 0))
 
 # checking if the excel file exists or not, if not generate
 if os.path.isfile('Tidskalkyle.xlsx') == False:
-    print('Hello')
     wb = op.Workbook()
 
     wb.create_sheet('Raw Data')
@@ -96,7 +95,6 @@ for item in productnumber:
 
         if ordernumber == item:
             time += ws.cell(row=row, column=2).value
-            print(ordernumber)
 
         row += 1
 
