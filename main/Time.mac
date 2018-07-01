@@ -2,7 +2,10 @@ GET_OP_LIST
 test2 = last_op_number
 get_part_data part_name, filename$
 
-file_open 1, "Time.txt", write
+!file_exists "Time.txt", checkvar
+!if checkvar = 1 then file_delete "Time.txt"
+
+file_open 1, "Time.txt", WRITE
 
 file_write_text 1, filename$
 
@@ -14,6 +17,6 @@ next i
 
 file_close 1
 
-debug "Hello"
+!debug "Hello"
 
 RUN_EXE "main.exe"
