@@ -1,19 +1,22 @@
 GET_OP_LIST
 test2 = last_op_number
-get_part_data part_name, filename$
+get_part_data part_name, ordername$
 
-file_open 1, "Time.txt", write
+filename$ = "Time.txt"
+file_open 1, filename$, write
 
-file_write_text 1, filename$
+file_write_text 1, ordername$
 
+total_time = 0
 for i = 1 to test2
     get_op_data i, TIME, testtime
+    !total_time = total_time + testtime
     file_write_vars 1, testtime
     !debug "Time", testtime
 next i
 
 file_close 1
 
-debug "Hello"
+!debug total_time
 
-RUN_EXE "main.exe"
+!RUN_EXE "main.exe", filename$
