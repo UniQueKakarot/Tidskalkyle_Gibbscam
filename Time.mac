@@ -2,7 +2,12 @@ GET_OP_LIST
 test2 = last_op_number
 get_part_data part_name, ordername$
 
-filename$ = "C:\Users\heiv085\Documents\Github\Tidskalkyle_Gibbscam\dist\Tidskalkyle\Time.txt"
+
+filename$ = "C:\Users\heiv085\Documents\Github\Tidskalkyle_Gibbscam\main\Time.txt"
+
+file_exists filename$, checkvar
+if checkvar = 1 THEN file_delete filename$
+
 file_open 1, filename$, write
 
 file_write_text 1, ordername$
@@ -19,4 +24,4 @@ file_close 1
 
 !debug total_time
 
-RUN_EXE "main.exe", filename$
+RUN_EXE "main.exe"
