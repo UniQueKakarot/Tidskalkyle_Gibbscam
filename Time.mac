@@ -24,4 +24,6 @@ file_close 1
 
 !debug total_time
 
-RUN_EXE "main.exe"
+RUN_EXE "main.exe", "Time.txt", 0, 0
+
+debug "Hello"
